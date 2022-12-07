@@ -45,7 +45,7 @@ void Field::update()
 	}
 
 	int num1 = m_MinoNum / 10;	// \‚ÌˆÊ
-	int num2 = m_MinoNum % 10;	// ˆê‚ÌˆÊ
+	int num2 = m_MinoNum % 10;	// ˆê‚Ì
 
 	if (m_fallFlame >= 30)
 	{

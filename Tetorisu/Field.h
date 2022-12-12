@@ -14,18 +14,14 @@ public:
 
 	void draw();
 
-//	bool IsActive();
+	bool IsActive();
+	//bool columnExist();
 private:
 	void updateAppear();	// 登場
 	void updateLeft();		// 左に移動
 	void updateRight();		// 右に移動
-	void updateDown();		// 下に素早く移動
 
 private:
-	// フィールドの幅
-	int m_lengthNum[20];
-	int m_sideNum[10];
-
 	// フィールドサイズ
 	int m_MinoSize;
 
@@ -35,6 +31,9 @@ private:
 	// フィールドの情報（0,1）
 	int m_FieldNum[20][10];
 
+	// ミノが消えた時の置き換え
+	int m_VirtualFieldNum[20][10];
+
 	// テトリミノ番号
 	int m_MinoNum;
 	// テトリミノの十の位の番号
@@ -42,15 +41,23 @@ private:
 	// テトリミノの一の位の番号
 	int m_OnesPlaceNum;
 
-	// テトリミノが動いているとき
-	bool m_Active;
-
 	// テトリミノの落ちる速度
-	int  m_fallFlame;
-
+	int m_fallFlame;
+	
+	// テトリミノが切り替わる時間
+	int m_SwitchMinoFlame;
 
 	bool m_IsRightPressBotton;
 	bool m_IsLeftPressBotton;
+
+	// 横一列のミノの数
+	int m_ColumnMinoNum;
+
+	// 横一列にすべてミノが存在するかどうか
+	bool m_ExistColumnMino;
+
+	// 何列目のミノがそろったか
+	int m_ExistMinoNum;
 
 	// update処理メンバ関数ポインタ
 	void(Field:: *m_func)();

@@ -222,6 +222,12 @@ void Field::draw()
 	{
 		for (int j = 0; j < kSideNum; j++)
 		{
+			if (m_FieldNum[i][j] == 0)
+			{
+				DrawBox(j * m_MinoSize + 100, i * m_MinoSize + 100,
+					(j + 1) * m_MinoSize + 100, (i + 1) * m_MinoSize + 100, GetColor(0, 255, 0), false);
+			}
+
 			if (m_FieldNum[i][j] == 1)
 			{
 				DrawBox(j * m_MinoSize + 100, i * m_MinoSize + 100,
@@ -234,7 +240,6 @@ void Field::draw()
 			{
 				DrawBox(j * m_MinoSize + 100, i * m_MinoSize + 100,
 					(j + 1) * m_MinoSize + 100, (i + 1) * m_MinoSize + 100, GetColor(255, 0, 0), true);
-
 				DrawBox(j * m_MinoSize + 100, i * m_MinoSize + 100,
 					(j + 1) * m_MinoSize + 100, (i + 1) * m_MinoSize + 100, GetColor(0, 255, 0), false);
 			}

@@ -112,15 +112,17 @@ void Field::update()
 			m_TensPlaceNum = m_MinoNum / 10;
 			m_OnesPlaceNum = m_MinoNum % 10;
 
-			m_ActiveMinoNum[m_TensPlaceNum][m_OnesPlaceNum] = 1;
 			m_fallFlame = 0;
 		}
+
+		m_ActiveMinoNum[m_TensPlaceNum][m_OnesPlaceNum] = 1;
 
 		m_fallFlame++;
 	}
 
-	if (!IsActive())
+	if (!IsActive() && m_SwitchMinoFlame >= 60)
 	{
+		m_SwitchMinoFlame = 0;
 		for (int i = 0; i < kLengthNum; i++)
 		{
 			for (int j = 0; j < kSideNum; j++)
@@ -247,6 +249,16 @@ void Field::updateAppear()
 		m_fallFlame += 5;
 	}
 
+	if (!CheckHitKey(KEY_INPUT_RIGHT))
+	{
+		m_IsRightPressBotton = false;
+	}
+
+	if (!CheckHitKey(KEY_INPUT_LEFT))
+	{
+		m_IsLeftPressBotton = false;
+	}
+
 	if (CheckHitKey(KEY_INPUT_RIGHT) && !m_IsRightPressBotton)
 	{
 		m_func = &Field::updateRight;
@@ -257,15 +269,6 @@ void Field::updateAppear()
 		m_func = &Field::updateLeft;
 	}
 
-	if (!CheckHitKey(KEY_INPUT_RIGHT))
-	{
-		m_IsRightPressBotton = false;
-	}
-
-	if (!CheckHitKey(KEY_INPUT_LEFT))
-	{
-		m_IsLeftPressBotton = false;
-	}
 }
 
 void Field::updateLeft()
@@ -330,39 +333,7 @@ bool Field::IsActive()
 				m_SwitchMinoFlame++;
 				return false;
 			}
-
-			/*if (m_SwitchMinoFlame >= 30)
-			{
-				
-				return false;
-			}*/
 		}
 	}
 	return true;
 }
-
-//bool Field::columnExist()
-//{
-//	int exist = 0;
-//	for (int i = 0; i < kLengthNum; i++)
-//	{
-//		for (int j = 0; j < kSideNum; j++)
-//		{
-//			if (m_FieldNum[kLengthNum - 1][j] == 1)
-//			{
-//				exist++;
-//			}
-//			else
-//			{
-//				exist = 0;
-//				continue;
-//			}
-//
-//			if (exist == 10)
-//			{
-//				return true;
-//			}
-//		}
-//	}
-//	return false;
-//}

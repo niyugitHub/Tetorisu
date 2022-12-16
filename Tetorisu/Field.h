@@ -4,6 +4,9 @@ class Mino;
 
 class Field
 {
+private:
+	static constexpr int Column = 4;
+	static constexpr int Side = 4;
 public:
 	Field();
 
@@ -28,8 +31,11 @@ private:
 	// フィールドサイズ
 	int m_MinoSize;
 
+	// 今動いているミノのフィールド情報（0,1）
+	int m_ActiveFieldNum[20][10];
+
 	// 今動いているミノの情報（0,1）
-	int m_ActiveMinoNum[20][10];
+	int m_ActiveNum[Column][Side];
 
 	// フィールドの情報（0,1）
 	int m_FieldNum[20][10];

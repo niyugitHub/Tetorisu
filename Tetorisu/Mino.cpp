@@ -7,7 +7,7 @@ Mino::Mino():
 {
 	for (int i = 0; i < Column; i++)
 	{
-		for (int j = 0; j < Size; j++)
+		for (int j = 0; j < Side; j++)
 		{
 			m_Tetrimino[i][j] = 0;
 		}
@@ -23,9 +23,9 @@ void Mino::Update()
 {
 	m_RandMino = GetRand(6);
 
-	SetMino();
+	//SetMino();
 
-	GetMino();
+	//GetMino(int i, int j);
 }
 
 void Mino::SetMino()
@@ -58,7 +58,7 @@ void Mino::SetMino()
 	}
 }
 
-void Mino::GetMino()
+int Mino::GetMino(int i , int j)
 {
 	if (m_MinoTypes == TypeI)
 	{
@@ -80,7 +80,7 @@ void Mino::GetMino()
 		m_Tetrimino[3][3] = 0;
 	}
 
-	if (m_MinoTypes == TypeJ)
+	else if (m_MinoTypes == TypeJ)
 	{
 		m_Tetrimino[0][0] = 0;
 		m_Tetrimino[0][1] = 0;
@@ -100,7 +100,7 @@ void Mino::GetMino()
 		m_Tetrimino[3][3] = 0;
 	}
 
-	if (m_MinoTypes == TypeL)
+	else if (m_MinoTypes == TypeL)
 	{
 		m_Tetrimino[0][0] = 0;
 		m_Tetrimino[0][1] = 1;
@@ -120,7 +120,7 @@ void Mino::GetMino()
 		m_Tetrimino[3][3] = 0;
 	}
 
-	if (m_MinoTypes == TypeO)
+	else if (m_MinoTypes == TypeO)
 	{
 		m_Tetrimino[0][0] = 0;
 		m_Tetrimino[0][1] = 0;
@@ -140,7 +140,7 @@ void Mino::GetMino()
 		m_Tetrimino[3][3] = 0;
 	}
 
-	if (m_MinoTypes == TypeS)
+	else if (m_MinoTypes == TypeS)
 	{
 		m_Tetrimino[0][0] = 0;
 		m_Tetrimino[0][1] = 1;
@@ -160,7 +160,7 @@ void Mino::GetMino()
 		m_Tetrimino[3][3] = 0;
 	}
 
-	if (m_MinoTypes == TypeT)
+	else if (m_MinoTypes == TypeT)
 	{
 		m_Tetrimino[0][0] = 0;
 		m_Tetrimino[0][1] = 1;
@@ -180,7 +180,7 @@ void Mino::GetMino()
 		m_Tetrimino[3][3] = 0;
 	}
 
-	if (m_MinoTypes == TypeZ)
+	else if (m_MinoTypes == TypeZ)
 	{
 		m_Tetrimino[0][0] = 1;
 		m_Tetrimino[0][1] = 1;
@@ -199,4 +199,6 @@ void Mino::GetMino()
 		m_Tetrimino[3][2] = 0;
 		m_Tetrimino[3][3] = 0;
 	}
+
+	return m_Tetrimino[i][j];
 }

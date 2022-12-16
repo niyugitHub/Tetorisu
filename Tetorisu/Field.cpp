@@ -37,7 +37,15 @@ Field::Field() :
 	{
 		for (int j = 0; j < kSideNum; j++)
 		{
-			m_ActiveMinoNum[i][j] = 0;
+			m_ActiveFieldNum[i][j] = 0;
+		}
+	}
+
+	for (int i = 0; i < Column; i++)
+	{
+		for (int j = 0; j < Side; j++)
+		{
+			m_ActiveNum[i][j] = 0;
 		}
 	}
 
@@ -110,7 +118,7 @@ void Field::update()
 
 		if (m_fallFlame >= 20)
 		{
-			m_ActiveMinoNum[m_TensPlaceNum][m_OnesPlaceNum] = 0;
+			m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum] = 0;
 			m_MinoNum += 10;
 
 			m_TensPlaceNum = m_MinoNum / 10;
@@ -119,7 +127,7 @@ void Field::update()
 			m_fallFlame = 0;
 		}
 
-		m_ActiveMinoNum[m_TensPlaceNum][m_OnesPlaceNum] = 1;
+		m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum] = 1;
 
 		m_fallFlame++;
 	}
@@ -131,7 +139,7 @@ void Field::update()
 		{
 			for (int j = 0; j < kSideNum; j++)
 			{
-				if (m_ActiveMinoNum[i][j] == 1 && m_FieldNum[i][j] == 0)
+				if (m_ActiveFieldNum[i][j] == 1 && m_FieldNum[i][j] == 0)
 				{
 					m_FieldNum[i][j] = 1;
 				}
@@ -194,10 +202,34 @@ void Field::update()
 		{
 			for (int j = 0; j < kSideNum; j++)
 			{
-				m_ActiveMinoNum[i][j] = 0;
+				m_ActiveFieldNum[i][j] = 0;
 			}
 		}
-		m_ActiveMinoNum[0][5] = 1;
+
+		mino->Update();
+
+		mino->SetMino();
+		
+		for (int i = 0; i < Column; i++)
+		{
+			for (int j = 0; j < Side; j++)
+			{
+				m_ActiveNum[i][j] = mino->GetMino(i,j);
+			}
+		}
+
+		for (int i = 0; i < Column; i++)
+		{
+			for (int j = 0; j < Side; j++)
+			{
+				if (m_ActiveNum[i][j] == 1)
+				{
+					m_ActiveFieldNum[i][j + 5] = 1;
+				}
+			}
+		}
+	//	m_ActiveFieldNum[0][5] = 1;
+
 		m_MinoNum = 5;
 	//	m_SwitchMinoFlame = 0;
 	}
@@ -240,7 +272,7 @@ void Field::draw()
 					(j + 1) * m_MinoSize + 100, (i + 1) * m_MinoSize + 100, GetColor(0, 255, 0), false);
 			}
 
-			if (m_ActiveMinoNum[i][j] == 1)
+			if (m_ActiveFieldNum[i][j] == 1)
 			{
 				DrawBox(j * m_MinoSize + 100, i * m_MinoSize + 100,
 					(j + 1) * m_MinoSize + 100, (i + 1) * m_MinoSize + 100, GetColor(255, 0, 0), true);
@@ -291,9 +323,9 @@ void Field::updateLeft()
 		&& m_FieldNum[m_TensPlaceNum][m_OnesPlaceNum - 1] == 0)
 	{
 		m_MinoNum--;
-		m_ActiveMinoNum[m_TensPlaceNum][m_OnesPlaceNum] = 0;
+		m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum] = 0;
 
-		m_ActiveMinoNum[m_TensPlaceNum][m_OnesPlaceNum - 1] = 1;
+		m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum - 1] = 1;
 	}
 	m_IsLeftPressBotton = true;
 
@@ -312,9 +344,9 @@ void Field::updateRight()
 	{
 		m_MinoNum++;
 
-		m_ActiveMinoNum[m_TensPlaceNum][m_OnesPlaceNum] = 0;
+		m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum] = 0;
 
-		m_ActiveMinoNum[m_TensPlaceNum][m_OnesPlaceNum + 1] = 1;
+		m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum + 1] = 1;
 	}
 
 	m_IsRightPressBotton = true;
@@ -331,13 +363,13 @@ bool Field::IsActive()
 	{
 		for (int j = 0; j < kSideNum; j++)
 		{
-			if (m_ActiveMinoNum[kLengthNum - 1][j] == 1)
+			if (m_ActiveFieldNum[kLengthNum - 1][j] == 1)
 			{
 				m_SwitchMinoFlame++;
 				return false;
 			}
 			
-			if (m_ActiveMinoNum[i][j] == 1 && m_FieldNum[i + 1][j] == 1)
+			if (m_ActiveFieldNum[i][j] == 1 && m_FieldNum[i + 1][j] == 1)
 			{
 				m_SwitchMinoFlame++;
 				return false;

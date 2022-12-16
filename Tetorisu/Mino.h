@@ -5,7 +5,7 @@ class Mino
 {
 private:
 	static constexpr int Column = 4;
-	static constexpr int Size = 4;
+	static constexpr int Side = 4;
 
 public:
 	Mino();
@@ -27,12 +27,12 @@ public:
 
 	void SetMino();
 
-	void GetMino();
+	int GetMino(int i, int j);
 
 private:
 	int m_RandMino;
 
 	int m_MinoTypes;
-	int m_Tetrimino[Column][Size];
+	int m_Tetrimino[Column][Side];
 };
 

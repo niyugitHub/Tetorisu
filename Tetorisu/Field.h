@@ -1,4 +1,7 @@
 #pragma once
+
+class Mino;
+
 class Field
 {
 public:
@@ -61,5 +64,7 @@ private:
 
 	// update処理メンバ関数ポインタ
 	void(Field:: *m_func)();
+
+	Mino*mino;
 };
 

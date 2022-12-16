@@ -1,4 +1,5 @@
 #include "Field.h"
+#include "Mino.h"
 #include<Dxlib.h>
 
 namespace
@@ -55,11 +56,14 @@ Field::Field() :
 			m_VirtualFieldNum[i][j] = 0;
 		}
 	}
+
+	mino = new Mino;
 }
 
 Field::~Field()
 {
-
+	delete mino;
+	mino = nullptr;
 }
 
 void Field::init()

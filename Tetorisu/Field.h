@@ -35,7 +35,7 @@ private:
 	int m_ActiveFieldNum[20][10];
 
 	// 今動いているミノの情報（0,1）
-	int m_ActiveNum[Column][Side];
+	int m_ActiveMinoNum[Column][Side];
 
 	// フィールドの情報（0,1）
 	int m_FieldNum[20][10];
@@ -64,6 +64,9 @@ private:
 
 	// 横一列にすべてミノが存在するかどうか
 	bool m_ExistColumnMino;
+
+	// 最初に出されるミノのとき
+	bool m_FirstMino;
 
 	// 何列目のミノがそろったか
 	int m_ExistMinoNum;

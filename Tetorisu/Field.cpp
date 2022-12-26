@@ -10,15 +10,16 @@ namespace
 
 Field::Field() : 
 	m_MinoSize(20),
-	m_MinoNum(5),
+	m_MinoNum(0),
 	m_fallFlame(0),
 	m_TensPlaceNum(0),	// 十の位
 	m_OnesPlaceNum(0),	// 一の位
-	m_SwitchMinoFlame(0),
+	m_SwitchMinoFlame(60),
 	m_IsRightPressBotton(false),
 	m_IsLeftPressBotton(false),
 	m_ColumnMinoNum(0),
 	m_ExistColumnMino(false),
+	m_FirstMino(true),
 	m_ExistMinoNum(0)
 {
 	m_func = &Field::updateAppear;
@@ -45,7 +46,7 @@ Field::Field() :
 	{
 		for (int j = 0; j < Side; j++)
 		{
-			m_ActiveNum[i][j] = 0;
+			m_ActiveMinoNum[i][j] = 0;
 		}
 	}
 
@@ -109,16 +110,28 @@ void Field::update()
 			}
 		}
 	}*/
-	(this->*m_func)();
 
 	if (IsActive())
 	{
+		(this->*m_func)();
+
 		m_TensPlaceNum = m_MinoNum / 10;	// 十の位
 		m_OnesPlaceNum = m_MinoNum % 10;	// 一の位
+	
 
 		if (m_fallFlame >= 20)
 		{
-			m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum] = 0;
+			for (int i = 0; i < Column; i++)
+			{
+				for (int j = 0; j < Side; j++)
+				{
+					if (m_ActiveMinoNum[i][j] == 1)
+					{
+						m_ActiveFieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] = 0;
+					}
+				}
+			}
+		//	m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum] = 0;
 			m_MinoNum += 10;
 
 			m_TensPlaceNum = m_MinoNum / 10;
@@ -127,14 +140,29 @@ void Field::update()
 			m_fallFlame = 0;
 		}
 
-		m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum] = 1;
+		for (int i = 0; i < Column; i++)
+		{
+			for (int j = 0; j < Side; j++)
+			{
+				if (m_ActiveMinoNum[i][j] == 1)
+				{
+					/*m_ActiveFieldNum[i][j + 5] = 1;*/
+					m_ActiveFieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] = 1;
+				}
+			}
+		}
+
+		//m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum] = 1;
 
 		m_fallFlame++;
 	}
 
 	if (!IsActive() && m_SwitchMinoFlame >= 60)
 	{
+		m_FirstMino = false;
 		m_SwitchMinoFlame = 0;
+
+		// m_ActiveFieldNumが1でm_FieldNumが0のときm_FieldNumに1を代入する
 		for (int i = 0; i < kLengthNum; i++)
 		{
 			for (int j = 0; j < kSideNum; j++)
@@ -146,6 +174,7 @@ void Field::update()
 			}
 		}
 
+		// ミノが横一列そろったときミノを消すフラグをtrueに
 		for (int i = 0; i < kLengthNum; i++)
 		{
 			for (int j = 0; j < kSideNum; j++)
@@ -173,6 +202,7 @@ void Field::update()
 			}
 		}
 
+		// ミノが横一列そろったときミノを消す
 		if (m_ExistColumnMino)
 		{
 			for (int i = 0; i < kLengthNum; i++)
@@ -182,6 +212,11 @@ void Field::update()
 					if (m_ExistMinoNum > i && m_FieldNum[i][j] == 1)
 					{
 						m_VirtualFieldNum[i + 1][j] = 1;
+					}
+
+					if (m_ExistMinoNum < i && m_FieldNum[i][j] == 1)
+					{
+						m_VirtualFieldNum[i][j] = 1;
 					}
 				}
 			}
@@ -214,7 +249,7 @@ void Field::update()
 		{
 			for (int j = 0; j < Side; j++)
 			{
-				m_ActiveNum[i][j] = mino->GetMino(i,j);
+				m_ActiveMinoNum[i][j] = mino->GetMino(i,j);
 			}
 		}
 
@@ -222,15 +257,15 @@ void Field::update()
 		{
 			for (int j = 0; j < Side; j++)
 			{
-				if (m_ActiveNum[i][j] == 1)
+				if (m_ActiveMinoNum[i][j] == 1)
 				{
-					m_ActiveFieldNum[i][j + 5] = 1;
+					m_ActiveFieldNum[i][j + 3] = 1;
 				}
 			}
 		}
 	//	m_ActiveFieldNum[0][5] = 1;
 
-		m_MinoNum = 5;
+		m_MinoNum = 3;
 	//	m_SwitchMinoFlame = 0;
 	}
 }
@@ -323,9 +358,20 @@ void Field::updateLeft()
 		&& m_FieldNum[m_TensPlaceNum][m_OnesPlaceNum - 1] == 0)
 	{
 		m_MinoNum--;
-		m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum] = 0;
 
-		m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum - 1] = 1;
+		for (int i = 0; i < Column; i++)
+		{
+			for (int j = 0; j < Side; j++)
+			{
+				if (m_ActiveMinoNum[i][j] == 1)
+				{
+					m_ActiveFieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] = 0;
+				}
+			}
+		}
+		//m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum] = 0;
+
+		//m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum - 1] = 1;
 	}
 	m_IsLeftPressBotton = true;
 
@@ -344,9 +390,20 @@ void Field::updateRight()
 	{
 		m_MinoNum++;
 
-		m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum] = 0;
+		for (int i = 0; i < Column; i++)
+		{
+			for (int j = 0; j < Side; j++)
+			{
+				if (m_ActiveMinoNum[i][j] == 1)
+				{
+					m_ActiveFieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] = 0;
+				}
+			}
+		}
 
-		m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum + 1] = 1;
+		//m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum] = 0;
+
+		//m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum + 1] = 1;
 	}
 
 	m_IsRightPressBotton = true;
@@ -359,6 +416,10 @@ void Field::updateRight()
 
 bool Field::IsActive()
 {
+	if (m_FirstMino)
+	{
+		return false;
+	}
 	for (int i = 0; i < kLengthNum; i++)
 	{
 		for (int j = 0; j < kSideNum; j++)

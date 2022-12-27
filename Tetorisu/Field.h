@@ -21,6 +21,10 @@ public:
 	void draw();
 
 	bool IsActive();
+
+	bool IsLeft();
+
+	bool IsRight();
 	//bool columnExist();
 private:
 	void updateAppear();	// ìoèÍ

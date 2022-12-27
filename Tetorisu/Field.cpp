@@ -355,10 +355,12 @@ void Field::updateLeft()
 		m_fallFlame += 5;
 	}
 
-	if (m_MinoNum % 10 != 0 && !m_IsLeftPressBotton
-		&& m_FieldNum[m_TensPlaceNum][m_OnesPlaceNum - 1] == 0)
+	if (!m_IsLeftPressBotton)
 	{
-		m_MinoNum--;
+		if (IsLeft())
+		{
+			m_MinoNum--;
+		}
 
 		for (int i = 0; i < Column; i++)
 		{
@@ -386,10 +388,12 @@ void Field::updateRight()
 		m_fallFlame += 5;
 	}
 
-	if (m_MinoNum % 10 != 9 && !m_IsRightPressBotton
-		&& m_FieldNum[m_TensPlaceNum][m_OnesPlaceNum + 1] == 0)
+	if (!m_IsRightPressBotton)
 	{
-		m_MinoNum++;
+		if (IsRight())
+		{
+			m_MinoNum++;
+		}
 
 		for (int i = 0; i < Column; i++)
 		{
@@ -438,5 +442,151 @@ bool Field::IsActive()
 			}
 		}
 	}
+	return true;
+}
+
+bool Field::IsLeft()
+{
+	if (m_ActiveFieldNum[m_TensPlaceNum][0] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 1][0] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 2][0] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 3][0] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum] == 1 &&
+		m_FieldNum[m_TensPlaceNum][m_OnesPlaceNum - 1] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 1][m_OnesPlaceNum] == 1 &&
+		m_FieldNum[m_TensPlaceNum + 1][m_OnesPlaceNum - 1] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 2][m_OnesPlaceNum] == 1 &&
+		m_FieldNum[m_TensPlaceNum + 2][m_OnesPlaceNum - 1] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 3][m_OnesPlaceNum] == 1 &&
+		m_FieldNum[m_TensPlaceNum + 3][m_OnesPlaceNum - 1] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum + 1] == 1 &&
+		m_FieldNum[m_TensPlaceNum][m_OnesPlaceNum] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 1][m_OnesPlaceNum + 1] == 1 &&
+		m_FieldNum[m_TensPlaceNum + 1][m_OnesPlaceNum] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 2][m_OnesPlaceNum + 1] == 1 &&
+		m_FieldNum[m_TensPlaceNum + 2][m_OnesPlaceNum] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 3][m_OnesPlaceNum + 1] == 1 &&
+		m_FieldNum[m_TensPlaceNum + 3][m_OnesPlaceNum] == 1)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool Field::IsRight()
+{
+	if (m_ActiveFieldNum[m_TensPlaceNum][9] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 1][9] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 2][9] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 3][9] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum + 3] == 1 &&
+		m_FieldNum[m_TensPlaceNum][m_OnesPlaceNum + 4] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 1][m_OnesPlaceNum + 3] == 1 &&
+		m_FieldNum[m_TensPlaceNum + 1][m_OnesPlaceNum + 4] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 2][m_OnesPlaceNum + 3] == 1 &&
+		m_FieldNum[m_TensPlaceNum + 2][m_OnesPlaceNum + 4] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 3][m_OnesPlaceNum + 3] == 1 &&
+		m_FieldNum[m_TensPlaceNum + 3][m_OnesPlaceNum + 4] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum + 2] == 1 &&
+		m_FieldNum[m_TensPlaceNum][m_OnesPlaceNum + 3] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 1][m_OnesPlaceNum + 2] == 1 &&
+		m_FieldNum[m_TensPlaceNum + 1][m_OnesPlaceNum + 3] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 2][m_OnesPlaceNum + 2] == 1 &&
+		m_FieldNum[m_TensPlaceNum + 2][m_OnesPlaceNum + 3] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 3][m_OnesPlaceNum + 2] == 1 &&
+		m_FieldNum[m_TensPlaceNum + 3][m_OnesPlaceNum + 3] == 1)
+	{
+		return false;
+	}
+
 	return true;
 }

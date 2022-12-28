@@ -2,7 +2,6 @@
 #include "Mino.h"
 #include<Dxlib.h>
 
-//a
 namespace
 {
 	constexpr int kLengthNum = 20;

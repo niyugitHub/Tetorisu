@@ -20,6 +20,7 @@ Field::Field() :
 	m_IsLeftPressBotton(false),
 	m_ColumnMinoNum(0),
 	m_ExistColumnMino(false),
+	m_BottomMino(false),
 	m_FirstMino(true),
 	m_ExistMinoNum(0)
 {
@@ -114,13 +115,7 @@ void Field::update()
 
 	if (IsActive())
 	{
-		(this->*m_func)();
-
-		m_TensPlaceNum = m_MinoNum / 10;	// è\ÇÃà 
-		m_OnesPlaceNum = m_MinoNum % 10;	// àÍÇÃà 
-	
-
-		if (m_fallFlame >= 20)
+		if (m_fallFlame >= 20 && m_SwitchMinoFlame == 0)
 		{
 			for (int i = 0; i < Column; i++)
 			{
@@ -141,6 +136,16 @@ void Field::update()
 			m_fallFlame = 0;
 		}
 
+		else if(m_SwitchMinoFlame < 60)
+		{
+			(this->*m_func)();
+		}
+
+		m_TensPlaceNum = m_MinoNum / 10;	// è\ÇÃà 
+		m_OnesPlaceNum = m_MinoNum % 10;	// àÍÇÃà 
+	
+
+
 		for (int i = 0; i < Column; i++)
 		{
 			for (int j = 0; j < Side; j++)
@@ -158,7 +163,7 @@ void Field::update()
 		m_fallFlame++;
 	}
 
-	if (!IsActive() && m_SwitchMinoFlame >= 60)
+	if (!IsActive())
 	{
 		m_FirstMino = false;
 		m_SwitchMinoFlame = 0;
@@ -260,13 +265,13 @@ void Field::update()
 			{
 				if (m_ActiveMinoNum[i][j] == 1)
 				{
-					m_ActiveFieldNum[i][j + 3] = 1;
+					m_ActiveFieldNum[i][j + 4] = 1;
 				}
 			}
 		}
 	//	m_ActiveFieldNum[0][5] = 1;
 
-		m_MinoNum = 3;
+		m_MinoNum = 4;
 	//	m_SwitchMinoFlame = 0;
 	}
 }
@@ -427,20 +432,52 @@ bool Field::IsActive()
 	}
 	for (int i = 0; i < kLengthNum; i++)
 	{
+		if (m_BottomMino)
+		{
+			break;
+		}
+
 		for (int j = 0; j < kSideNum; j++)
 		{
 			if (m_ActiveFieldNum[kLengthNum - 1][j] == 1)
 			{
-				m_SwitchMinoFlame++;
-				return false;
+				//m_SwitchMinoFlame++;
+				//return false;
+
+				m_BottomMino = true;
+				break;
 			}
 			
-			if (m_ActiveFieldNum[i][j] == 1 && m_FieldNum[i + 1][j] == 1)
+			else if (m_ActiveFieldNum[i][j] == 1 && m_FieldNum[i + 1][j] == 1)
 			{
-				m_SwitchMinoFlame++;
-				return false;
+				//m_SwitchMinoFlame++;
+				//return false;
+
+				m_BottomMino = true;
+				break;
+			}
+
+			else
+			{
+				m_BottomMino = false;
 			}
 		}
+	}
+
+	if (m_BottomMino == true)
+	{
+		m_SwitchMinoFlame++;
+	}
+
+	if (m_BottomMino == false)
+	{
+		m_SwitchMinoFlame = 0;
+	}
+
+	if (m_SwitchMinoFlame >= 60)
+	{
+		m_BottomMino = false;
+		return false;
 	}
 	return true;
 }
@@ -515,6 +552,30 @@ bool Field::IsLeft()
 		return false;
 	}
 
+	if (m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum + 2] == 1 &&
+		m_FieldNum[m_TensPlaceNum][m_OnesPlaceNum + 1] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 1][m_OnesPlaceNum + 2] == 1 &&
+		m_FieldNum[m_TensPlaceNum + 1][m_OnesPlaceNum + 1] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 2][m_OnesPlaceNum + 2] == 1 &&
+		m_FieldNum[m_TensPlaceNum + 2][m_OnesPlaceNum + 1] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 3][m_OnesPlaceNum + 2] == 1 &&
+		m_FieldNum[m_TensPlaceNum + 3][m_OnesPlaceNum + 1] == 1)
+	{
+		return false;
+	}
+
 	return true;
 }
 
@@ -584,6 +645,30 @@ bool Field::IsRight()
 
 	if (m_ActiveFieldNum[m_TensPlaceNum + 3][m_OnesPlaceNum + 2] == 1 &&
 		m_FieldNum[m_TensPlaceNum + 3][m_OnesPlaceNum + 3] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum + 1] == 1 &&
+		m_FieldNum[m_TensPlaceNum][m_OnesPlaceNum + 2] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 1][m_OnesPlaceNum + 1] == 1 &&
+		m_FieldNum[m_TensPlaceNum + 1][m_OnesPlaceNum + 2] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 2][m_OnesPlaceNum + 1] == 1 &&
+		m_FieldNum[m_TensPlaceNum + 2][m_OnesPlaceNum + 2] == 1)
+	{
+		return false;
+	}
+
+	if (m_ActiveFieldNum[m_TensPlaceNum + 3][m_OnesPlaceNum + 1] == 1 &&
+		m_FieldNum[m_TensPlaceNum + 3][m_OnesPlaceNum + 2] == 1)
 	{
 		return false;
 	}

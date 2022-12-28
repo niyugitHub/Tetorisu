@@ -69,6 +69,9 @@ private:
 	// 横一列にすべてミノが存在するかどうか
 	bool m_ExistColumnMino;
 
+	// アクティブミノの下にミノが存在するとき
+	bool m_BottomMino;
+
 	// 最初に出されるミノのとき
 	bool m_FirstMino;
 

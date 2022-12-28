@@ -36,7 +36,7 @@ private:
 	int m_MinoSize;
 
 	// 今動いているミノのフィールド情報（0,1）
-	int m_ActiveFieldNum[20][10];
+	int m_ActiveFieldNum[23][10];
 
 	// 今動いているミノの情報（0,1）
 	int m_ActiveMinoNum[Column][Side];

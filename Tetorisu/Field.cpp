@@ -417,8 +417,8 @@ void Field::updateRight()
 
 	m_IsRightPressBotton = true;
 
-	m_TensPlaceNum = m_MinoNum / 10;	// \‚ÌˆÊ
-	m_OnesPlaceNum = m_MinoNum % 10;	// ˆê‚ÌˆÊ
+	//m_TensPlaceNum = m_MinoNum / 10;	// \‚ÌˆÊ
+	//m_OnesPlaceNum = m_MinoNum % 10;	// ˆê‚ÌˆÊ
 
 	m_func = &Field::updateAppear;
 }

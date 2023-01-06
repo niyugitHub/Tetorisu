@@ -17,11 +17,16 @@ Field::Field() :
 	m_SwitchMinoFlame(60),
 	m_IsRightPressBotton(false),
 	m_IsLeftPressBotton(false),
+	m_IsUpPressBotton(false),
 	m_ColumnMinoNum(0),
 	m_ExistColumnMino(false),
 	m_BottomMino(false),
 	m_FirstMino(true),
-	m_ExistMinoNum(0)
+	m_ExistMinoNum(0),
+	m_rota1(false),
+	m_rota2(false),
+	m_rota3(false),
+	m_rota4(false)
 {
 	m_func = &Field::updateAppear;
 
@@ -114,6 +119,8 @@ void Field::update()
 
 	if (IsActive())
 	{
+		rotationMino();
+
 		if (m_fallFlame >= 20 && m_SwitchMinoFlame == 0)
 		{
 			for (int i = 0; i < Column; i++)
@@ -249,12 +256,14 @@ void Field::update()
 		mino->Update();
 
 		mino->SetMino();
+
+		m_rota1 = true;
 		
 		for (int i = 0; i < Column; i++)
 		{
 			for (int j = 0; j < Side; j++)
 			{
-				m_ActiveMinoNum[i][j] = mino->GetMino(i,j);
+				m_ActiveMinoNum[i][j] = mino->GetMino1(i,j);
 			}
 		}
 
@@ -673,4 +682,87 @@ bool Field::IsRight()
 	}
 
 	return true;
+}
+
+void Field::rotationMino()
+{
+	if (CheckHitKey(KEY_INPUT_UP) && !m_IsUpPressBotton)
+	{
+		m_IsUpPressBotton = true;
+
+		for (int i = 0; i < Column; i++)
+		{
+			for (int j = 0; j < Side; j++)
+			{
+				m_ActiveFieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] = 0;
+			}
+		}
+
+		if (m_rota1)
+		{
+			m_rota1 = false;
+			m_rota2 = true;
+			for (int i = 0; i < Column; i++)
+			{
+				for (int j = 0; j < Side; j++)
+				{
+					m_ActiveMinoNum[i][j] = mino->GetMino2(i, j);
+				}
+			}
+		}
+
+		else if (m_rota2)
+		{
+			m_rota2 = false;
+			m_rota3 = true;
+			for (int i = 0; i < Column; i++)
+			{
+				for (int j = 0; j < Side; j++)
+				{
+					m_ActiveMinoNum[i][j] = mino->GetMino3(i, j);
+				}
+			}
+		}
+
+		else if (m_rota3)
+		{
+			m_rota3 = false;
+			m_rota4 = true;
+			for (int i = 0; i < Column; i++)
+			{
+				for (int j = 0; j < Side; j++)
+				{
+					m_ActiveMinoNum[i][j] = mino->GetMino4(i, j);
+				}
+			}
+		}
+
+		else if (m_rota4)
+		{
+			m_rota4 = false;
+			m_rota1 = true;
+			for (int i = 0; i < Column; i++)
+			{
+				for (int j = 0; j < Side; j++)
+				{
+					m_ActiveMinoNum[i][j] = mino->GetMino1(i, j);
+				}
+			}
+		}
+
+		for (int i = 0; i < Column; i++)
+		{
+			for (int j = 0; j < Side; j++)
+			{
+				if (m_ActiveMinoNum[i][j] == 1)
+				{
+					m_ActiveFieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] = 1;
+				}
+			}
+		}
+	}
+	else if (!CheckHitKey(KEY_INPUT_UP))
+	{
+		m_IsUpPressBotton = false;
+	}
 }

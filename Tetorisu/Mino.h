@@ -27,7 +27,13 @@ public:
 
 	void SetMino();
 
-	int GetMino(int i, int j);
+	int GetMino1(int i, int j);
+
+	int GetMino2(int i, int j);
+
+	int GetMino3(int i, int j);
+
+	int GetMino4(int i, int j);
 
 private:
 	int m_RandMino;

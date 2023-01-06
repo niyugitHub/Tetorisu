@@ -58,7 +58,7 @@ void Mino::SetMino()
 	}
 }
 
-int Mino::GetMino(int i , int j)
+int Mino::GetMino1(int i , int j)
 {
 	if (m_MinoTypes == TypeI)
 	{
@@ -201,4 +201,436 @@ int Mino::GetMino(int i , int j)
 	}
 
 	return m_Tetrimino[i][j];
+}
+
+int Mino::GetMino2(int i, int j)
+{
+	if (m_MinoTypes == TypeI)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 0;
+		m_Tetrimino[0][2] = 0;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 1;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 1;
+		m_Tetrimino[1][3] = 1;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 0;
+		m_Tetrimino[2][2] = 0;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_MinoTypes == TypeJ)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 0;
+		m_Tetrimino[0][2] = 0;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 0;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 0;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 1;
+		m_Tetrimino[2][2] = 1;
+		m_Tetrimino[2][3] = 1;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_MinoTypes == TypeL)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 0;
+		m_Tetrimino[0][2] = 0;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 0;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 1;
+		m_Tetrimino[1][3] = 1;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 1;
+		m_Tetrimino[2][2] = 0;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_MinoTypes == TypeO)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 0;
+		m_Tetrimino[0][2] = 0;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 0;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 1;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 1;
+		m_Tetrimino[2][2] = 1;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_MinoTypes == TypeS)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 1;
+		m_Tetrimino[0][2] = 0;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 0;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 1;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 0;
+		m_Tetrimino[2][2] = 1;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_MinoTypes == TypeT)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 0;
+		m_Tetrimino[0][2] = 0;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 1;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 1;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 1;
+		m_Tetrimino[2][2] = 0;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_MinoTypes == TypeZ)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 0;
+		m_Tetrimino[0][2] = 1;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 0;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 1;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 1;
+		m_Tetrimino[2][2] = 0;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+	return m_Tetrimino[i][j];
+}
+
+int Mino::GetMino3(int i, int j)
+{
+	if (m_MinoTypes == TypeI)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 0;
+		m_Tetrimino[0][2] = 1;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 0;
+		m_Tetrimino[1][1] = 0;
+		m_Tetrimino[1][2] = 1;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 0;
+		m_Tetrimino[2][2] = 1;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 1;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_MinoTypes == TypeJ)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 1;
+		m_Tetrimino[0][2] = 1;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 0;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 0;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 1;
+		m_Tetrimino[2][2] = 0;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_MinoTypes == TypeL)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 1;
+		m_Tetrimino[0][2] = 1;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 0;
+		m_Tetrimino[1][1] = 0;
+		m_Tetrimino[1][2] = 1;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 0;
+		m_Tetrimino[2][2] = 1;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_MinoTypes == TypeO)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 0;
+		m_Tetrimino[0][2] = 0;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 0;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 1;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 1;
+		m_Tetrimino[2][2] = 1;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_MinoTypes == TypeS)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 1;
+		m_Tetrimino[0][2] = 1;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 1;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 0;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 0;
+		m_Tetrimino[2][2] = 0;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_MinoTypes == TypeT)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 1;
+		m_Tetrimino[0][2] = 0;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 1;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 0;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 1;
+		m_Tetrimino[2][2] = 0;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_MinoTypes == TypeZ)
+	{
+		m_Tetrimino[0][0] = 1;
+		m_Tetrimino[0][1] = 1;
+		m_Tetrimino[0][2] = 0;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 0;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 1;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 0;
+		m_Tetrimino[2][2] = 0;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+return m_Tetrimino[i][j];
+}
+
+int Mino::GetMino4(int i, int j)
+{
+	if (m_MinoTypes == TypeI)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 0;
+		m_Tetrimino[0][2] = 0;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 0;
+		m_Tetrimino[1][1] = 0;
+		m_Tetrimino[1][2] = 0;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 1;
+		m_Tetrimino[2][1] = 1;
+		m_Tetrimino[2][2] = 1;
+		m_Tetrimino[2][3] = 1;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_MinoTypes == TypeJ)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 0;
+		m_Tetrimino[0][2] = 0;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 1;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 1;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 0;
+		m_Tetrimino[2][2] = 1;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_MinoTypes == TypeL)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 0;
+		m_Tetrimino[0][2] = 1;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 1;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 1;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 0;
+		m_Tetrimino[2][2] = 0;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_MinoTypes == TypeO)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 0;
+		m_Tetrimino[0][2] = 0;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 0;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 1;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 1;
+		m_Tetrimino[2][2] = 1;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_MinoTypes == TypeS)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 1;
+		m_Tetrimino[0][2] = 0;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 0;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 1;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 0;
+		m_Tetrimino[2][2] = 1;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_MinoTypes == TypeT)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 1;
+		m_Tetrimino[0][2] = 0;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 0;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 1;
+		m_Tetrimino[1][3] = 1;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 0;
+		m_Tetrimino[2][2] = 0;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_MinoTypes == TypeZ)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 0;
+		m_Tetrimino[0][2] = 1;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 0;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 1;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 1;
+		m_Tetrimino[2][2] = 0;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+return m_Tetrimino[i][j];
 }

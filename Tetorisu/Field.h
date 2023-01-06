@@ -25,6 +25,9 @@ public:
 	bool IsLeft();
 
 	bool IsRight();
+
+	void rotationMino();
+
 	//bool columnExist();
 private:
 	void updateAppear();	// 登場
@@ -62,6 +65,7 @@ private:
 
 	bool m_IsRightPressBotton;
 	bool m_IsLeftPressBotton;
+	bool m_IsUpPressBotton;
 
 	// 横一列のミノの数
 	int m_ColumnMinoNum;
@@ -77,6 +81,12 @@ private:
 
 	// 何列目のミノがそろったか
 	int m_ExistMinoNum;
+
+	// 何回目の回転か
+	bool m_rota1;
+	bool m_rota2;
+	bool m_rota3;
+	bool m_rota4;
 
 	// update処理メンバ関数ポインタ
 	void(Field:: *m_func)();

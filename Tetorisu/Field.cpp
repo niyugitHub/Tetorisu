@@ -191,6 +191,11 @@ void Field::update()
 		{
 			for (int j = 0; j < kSideNum; j++)
 			{
+				if (j == 0)
+				{
+					m_ColumnMinoNum = 0;
+				}
+
 				if (m_FieldNum[i][j] == 1)
 				{
 					m_ColumnMinoNum++;

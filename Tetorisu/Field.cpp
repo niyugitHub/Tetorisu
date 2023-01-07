@@ -26,7 +26,8 @@ Field::Field() :
 	m_rota1(false),
 	m_rota2(false),
 	m_rota3(false),
-	m_rota4(false)
+	m_rota4(false),
+	m_MinusMino(false)
 {
 	m_func = &Field::updateAppear;
 
@@ -149,8 +150,11 @@ void Field::update()
 
 		m_TensPlaceNum = m_MinoNum / 10;	// è\ÇÃà 
 		m_OnesPlaceNum = m_MinoNum % 10;	// àÍÇÃà 
-	
 
+		MoveMino();
+
+		m_TensPlaceNum = m_MinoNum / 10;	// è\ÇÃà 
+		m_OnesPlaceNum = m_MinoNum % 10;	// àÍÇÃà 
 
 		for (int i = 0; i < Column; i++)
 		{
@@ -158,11 +162,47 @@ void Field::update()
 			{
 				if (m_ActiveMinoNum[i][j] == 1)
 				{
-					/*m_ActiveFieldNum[i][j + 5] = 1;*/
 					m_ActiveFieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] = 1;
 				}
 			}
 		}
+
+		//for (int i = 0; i < Column; i++)
+		//{
+		//	for (int j = 0; j < Side; j++)
+		//	{
+		//		if (m_ActiveMinoNum[i][j] == 1)
+		//		{
+		//			m_ActiveFieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] = 1;
+
+		//			if (m_ActiveFieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] == 1 && m_OnesPlaceNum + j >= 10)
+		//			{
+		//				m_MinoNum--;
+		//			}
+
+		//			if (m_ActiveFieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] == 1 && m_FieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] == 1)
+		//			{
+		//				m_MinoNum--;
+		//			}
+
+		//			m_ActiveFieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] = 0;
+		//		}
+		//	}
+		//}
+
+		//m_TensPlaceNum = m_MinoNum / 10;	// è\ÇÃà 
+		//m_OnesPlaceNum = m_MinoNum % 10;	// àÍÇÃà 
+
+		//for (int i = 0; i < Column; i++)
+		//{
+		//	for (int j = 0; j < Side; j++)
+		//	{
+		//		if (m_ActiveMinoNum[i][j] == 1)
+		//		{
+		//			m_ActiveFieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] = 1;
+		//		}
+		//	}
+		//}
 
 		//m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum] = 1;
 
@@ -187,66 +227,73 @@ void Field::update()
 		}
 
 		// É~ÉmÇ™â°àÍóÒÇªÇÎÇ¡ÇΩÇ∆Ç´É~ÉmÇè¡Ç∑ÉtÉâÉOÇtrueÇ…
-		for (int i = 0; i < kLengthNum; i++)
-		{
-			for (int j = 0; j < kSideNum; j++)
-			{
-				if (j == 0)
-				{
-					m_ColumnMinoNum = 0;
-				}
-
-				if (m_FieldNum[i][j] == 1)
-				{
-					m_ColumnMinoNum++;
-				}
-				else
-				{
-					m_ColumnMinoNum = 0;
-						continue;
-				}
-
-				if (m_ColumnMinoNum == 10)
-				{
-					for (int k = 0; k < kSideNum; k++)
-					{
-						m_FieldNum[i][k] = 0;
-					}
-					m_ExistColumnMino = true;
-					m_ExistMinoNum = i;
-				}
-
-			}
-		}
-
-		// É~ÉmÇ™â°àÍóÒÇªÇÎÇ¡ÇΩÇ∆Ç´É~ÉmÇè¡Ç∑
-		if (m_ExistColumnMino)
+		for (int a = 0; a < 4; a++)
 		{
 			for (int i = 0; i < kLengthNum; i++)
 			{
+				if (m_ExistColumnMino)
+				{
+					break;
+				}
 				for (int j = 0; j < kSideNum; j++)
 				{
-					if (m_ExistMinoNum > i && m_FieldNum[i][j] == 1)
+					if (j == 0)
 					{
-						m_VirtualFieldNum[i + 1][j] = 1;
+						m_ColumnMinoNum = 0;
 					}
 
-					if (m_ExistMinoNum < i && m_FieldNum[i][j] == 1)
+					if (m_FieldNum[i][j] == 1)
 					{
-						m_VirtualFieldNum[i][j] = 1;
+						m_ColumnMinoNum++;
 					}
+					else
+					{
+						m_ColumnMinoNum = 0;
+							continue;
+					}
+
+					if (m_ColumnMinoNum == 10)
+					{
+						for (int k = 0; k < kSideNum; k++)
+						{
+							m_FieldNum[i][k] = 0;
+						}
+						m_ExistColumnMino = true;
+						m_ExistMinoNum = i;
+					}
+
 				}
 			}
 
-			for (int i = 0; i < kLengthNum; i++)
+			// É~ÉmÇ™â°àÍóÒÇªÇÎÇ¡ÇΩÇ∆Ç´É~ÉmÇè¡Ç∑
+			if (m_ExistColumnMino)
 			{
-				for (int j = 0; j < kSideNum; j++)
+				for (int i = 0; i < kLengthNum; i++)
 				{
-					m_FieldNum[i][j] = m_VirtualFieldNum[i][j];
-					m_VirtualFieldNum[i][j] = 0;
+					for (int j = 0; j < kSideNum; j++)
+					{
+						if (m_ExistMinoNum > i && m_FieldNum[i][j] == 1)
+						{
+							m_VirtualFieldNum[i + 1][j] = 1;
+						}
+
+						if (m_ExistMinoNum < i && m_FieldNum[i][j] == 1)
+						{
+							m_VirtualFieldNum[i][j] = 1;
+						}
+					}
 				}
+
+				for (int i = 0; i < kLengthNum; i++)
+				{
+					for (int j = 0; j < kSideNum; j++)
+					{
+						m_FieldNum[i][j] = m_VirtualFieldNum[i][j];
+						m_VirtualFieldNum[i][j] = 0;
+					}
+				}
+				m_ExistColumnMino = false;
 			}
-			m_ExistColumnMino = false;
 		}
 		
 
@@ -377,6 +424,7 @@ void Field::updateLeft()
 	{
 		if (IsLeft())
 		{
+			m_MinusMino = true;
 			m_MinoNum--;
 		}
 
@@ -410,6 +458,7 @@ void Field::updateRight()
 	{
 		if (IsRight())
 		{
+			m_MinusMino = false;
 			m_MinoNum++;
 		}
 
@@ -769,5 +818,68 @@ void Field::rotationMino()
 	else if (!CheckHitKey(KEY_INPUT_UP))
 	{
 		m_IsUpPressBotton = false;
+	}
+}
+
+void Field::MoveMino()
+{
+	for (int i = 0; i < Column; i++)
+	{
+		for (int j = 0; j < Side; j++)
+		{
+			if (m_ActiveMinoNum[i][j] == 1)
+			{
+				m_ActiveFieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] = 1;
+
+				if (m_OnesPlaceNum + j >= 10 && !m_MinusMino)
+				{
+					m_MinoNum--;
+				}
+
+				if (m_FieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] == 1 && j >= 2)
+				{
+					m_MinoNum--;
+				}
+
+				///*if (m_FieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] == 1)
+				//{
+				//	m_MinoNum -= 10;
+				//}*/
+
+				for (int k = 0; k <= kLengthNum; k++)
+				{
+					if (m_ActiveFieldNum[k][0] == 1 && m_ActiveFieldNum[k + i][9] == 1 && m_MinusMino)
+					{
+						m_MinoNum++;
+						break;
+					}
+
+					if (m_ActiveFieldNum[k + 1][0] == 1 && m_ActiveFieldNum[k + i][9] == 1 && m_MinusMino)
+					{
+						m_MinoNum++;
+						break;
+					}
+
+					if (m_ActiveFieldNum[k + 2][0] == 1 && m_ActiveFieldNum[k + i][9] == 1 && m_MinusMino)
+					{
+						m_MinoNum++;
+						break;
+					}
+
+					if (m_ActiveFieldNum[k + 3][0] == 1 && m_ActiveFieldNum[k + i][9] == 1 && m_MinusMino)
+					{
+						m_MinoNum++;
+						break;
+					}
+				}
+
+				if (m_FieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] == 1 && j < 2)
+				{
+					m_MinoNum++;
+				}
+
+				m_ActiveFieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] = 0;
+			}
+		}
 	}
 }

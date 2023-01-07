@@ -22,10 +22,6 @@ Mino::~Mino()
 void Mino::Update()
 {
 	m_RandMino = GetRand(6);
-
-	//SetMino();
-
-	//GetMino(int i, int j);
 }
 
 void Mino::SetMino()
@@ -599,10 +595,10 @@ int Mino::GetMino4(int i, int j)
 		m_Tetrimino[0][1] = 1;
 		m_Tetrimino[0][2] = 0;
 		m_Tetrimino[0][3] = 0;
-		m_Tetrimino[1][0] = 0;
+		m_Tetrimino[1][0] = 1;
 		m_Tetrimino[1][1] = 1;
 		m_Tetrimino[1][2] = 1;
-		m_Tetrimino[1][3] = 1;
+		m_Tetrimino[1][3] = 0;
 		m_Tetrimino[2][0] = 0;
 		m_Tetrimino[2][1] = 0;
 		m_Tetrimino[2][2] = 0;

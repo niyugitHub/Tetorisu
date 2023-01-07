@@ -28,6 +28,8 @@ public:
 
 	void rotationMino();
 
+	void MoveMino();
+
 	//bool columnExist();
 private:
 	void updateAppear();	// 登場
@@ -87,6 +89,8 @@ private:
 	bool m_rota2;
 	bool m_rota3;
 	bool m_rota4;
+
+	bool m_MinusMino;
 
 	// update処理メンバ関数ポインタ
 	void(Field:: *m_func)();

@@ -46,6 +46,9 @@ private:
 	// 今動いているミノの情報（0,1）
 	int m_ActiveMinoNum[Column][Side];
 
+	// 次に動くミノの情報（0,1）
+	int m_NextActiveMinoNum[Column][Side];
+
 	// フィールドの情報（0,1）
 	int m_FieldNum[20][10];
 

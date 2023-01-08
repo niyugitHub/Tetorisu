@@ -3,7 +3,9 @@
 
 Mino::Mino():
 	m_RandMino(0),
-	m_MinoTypes(0)
+	m_NextRandMino(0),
+	m_MinoTypes(0),
+	m_NextMinoTypes(0)
 {
 	for (int i = 0; i < Column; i++)
 	{
@@ -22,6 +24,16 @@ Mino::~Mino()
 void Mino::Update()
 {
 	m_RandMino = GetRand(6);
+}
+
+void Mino::NextUpdate()
+{
+	m_NextRandMino = GetRand(6);
+}
+
+void Mino::SetMinoNow()
+{
+	m_RandMino = m_NextRandMino;
 }
 
 void Mino::SetMino()
@@ -54,10 +66,41 @@ void Mino::SetMino()
 	}
 }
 
+void Mino::NextSetMino()
+{
+	switch (m_NextRandMino)
+	{
+	case 0:
+		m_NextMinoTypes = TypeI;
+		break;
+	case 1:
+		m_NextMinoTypes = TypeJ;
+		break;
+	case 2:
+		m_NextMinoTypes = TypeL;
+		break;
+	case 3:
+		m_NextMinoTypes = TypeO;
+		break;
+	case 4:
+		m_NextMinoTypes = TypeS;
+		break;
+	case 5:
+		m_NextMinoTypes = TypeT;
+		break;
+	case 6:
+		m_NextMinoTypes = TypeZ;
+		break;
+	default:
+		break;
+	}
+}
+
 int Mino::GetMino1(int i , int j)
 {
 	if (m_MinoTypes == TypeI)
 	{
+		//m_MinoTypes = TypeI;
 		m_Tetrimino[0][0] = 0;
 		m_Tetrimino[0][1] = 1;
 		m_Tetrimino[0][2] = 0;
@@ -629,4 +672,150 @@ int Mino::GetMino4(int i, int j)
 		m_Tetrimino[3][3] = 0;
 	}
 return m_Tetrimino[i][j];
+}
+
+int Mino::NextGetMino(int i, int j)
+{
+	if (m_NextMinoTypes == TypeI)
+	{
+		//m_MinoTypes = TypeI;
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 1;
+		m_Tetrimino[0][2] = 0;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 0;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 0;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 1;
+		m_Tetrimino[2][2] = 0;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 1;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_NextMinoTypes == TypeJ)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 0;
+		m_Tetrimino[0][2] = 1;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 0;
+		m_Tetrimino[1][1] = 0;
+		m_Tetrimino[1][2] = 1;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 1;
+		m_Tetrimino[2][2] = 1;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_NextMinoTypes == TypeL)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 1;
+		m_Tetrimino[0][2] = 0;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 0;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 0;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 1;
+		m_Tetrimino[2][2] = 1;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_NextMinoTypes == TypeO)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 0;
+		m_Tetrimino[0][2] = 0;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 0;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 1;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 1;
+		m_Tetrimino[2][2] = 1;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_NextMinoTypes == TypeS)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 1;
+		m_Tetrimino[0][2] = 1;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 1;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 0;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 0;
+		m_Tetrimino[2][2] = 0;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_NextMinoTypes == TypeT)
+	{
+		m_Tetrimino[0][0] = 0;
+		m_Tetrimino[0][1] = 1;
+		m_Tetrimino[0][2] = 0;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 0;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 1;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 1;
+		m_Tetrimino[2][2] = 0;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	else if (m_NextMinoTypes == TypeZ)
+	{
+		m_Tetrimino[0][0] = 1;
+		m_Tetrimino[0][1] = 1;
+		m_Tetrimino[0][2] = 0;
+		m_Tetrimino[0][3] = 0;
+		m_Tetrimino[1][0] = 0;
+		m_Tetrimino[1][1] = 1;
+		m_Tetrimino[1][2] = 1;
+		m_Tetrimino[1][3] = 0;
+		m_Tetrimino[2][0] = 0;
+		m_Tetrimino[2][1] = 0;
+		m_Tetrimino[2][2] = 0;
+		m_Tetrimino[2][3] = 0;
+		m_Tetrimino[3][0] = 0;
+		m_Tetrimino[3][1] = 0;
+		m_Tetrimino[3][2] = 0;
+		m_Tetrimino[3][3] = 0;
+	}
+
+	return m_Tetrimino[i][j];
 }

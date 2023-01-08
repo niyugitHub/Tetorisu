@@ -25,7 +25,15 @@ public:
 
 	void Update();
 
+	void NextUpdate();
+
+	void SetMinoNow();
+
 	void SetMino();
+
+	void NextSetMino();
+
+
 
 	int GetMino1(int i, int j);
 
@@ -35,10 +43,16 @@ public:
 
 	int GetMino4(int i, int j);
 
+	int NextGetMino(int i, int j);
+
+
 private:
 	int m_RandMino;
+	int m_NextRandMino;
 
 	int m_MinoTypes;
+	int m_NextMinoTypes;
+
 	int m_Tetrimino[Column][Side];
 };
 

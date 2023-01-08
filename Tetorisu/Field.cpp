@@ -57,6 +57,14 @@ Field::Field() :
 		}
 	}
 
+	for (int i = 0; i < Column; i++)
+	{
+		for (int j = 0; j < Side; j++)
+		{
+			m_NextActiveMinoNum[i][j] = 0;
+		}
+	}
+
 	for (int i = 0; i < kLengthNum; i++)
 	{
 		for (int j = 0; j < kSideNum; j++)
@@ -211,7 +219,6 @@ void Field::update()
 
 	if (!IsActive())
 	{
-		m_FirstMino = false;
 		m_SwitchMinoFlame = 0;
 
 		// m_ActiveFieldNum‚ª1‚Åm_FieldNum‚ª0‚Ì‚Æ‚«m_FieldNum‚É1‚ð‘ã“ü‚·‚é
@@ -224,6 +231,12 @@ void Field::update()
 					m_FieldNum[i][j] = 1;
 				}
 			}
+		}
+
+		if (m_FieldNum[0][4] == 1 || m_FieldNum[0][5] == 1 ||
+			m_FieldNum[0][6] == 1 || m_FieldNum[0][7] == 1)
+		{
+			DxLib_End();
 		}
 
 		// ƒ~ƒm‚ª‰¡ˆê—ñ‚»‚ë‚Á‚½‚Æ‚«ƒ~ƒm‚ðÁ‚·ƒtƒ‰ƒO‚ðtrue‚É
@@ -304,20 +317,59 @@ void Field::update()
 				m_ActiveFieldNum[i][j] = 0;
 			}
 		}
-
-		mino->Update();
-
-		mino->SetMino();
-
 		m_rota1 = true;
-		
+
+		if (!m_FirstMino)
+		{
+			mino->SetMinoNow();
+			mino->SetMino();
+			for (int i = 0; i < Column; i++)
+			{
+				for (int j = 0; j < Side; j++)
+				{
+					m_ActiveMinoNum[i][j] = mino->GetMino1(i, j);
+				}
+			}
+		}
+
+		mino->NextUpdate();
+
+		mino->NextSetMino();
+
 		for (int i = 0; i < Column; i++)
 		{
 			for (int j = 0; j < Side; j++)
 			{
-				m_ActiveMinoNum[i][j] = mino->GetMino1(i,j);
+				m_NextActiveMinoNum[i][j] = mino->NextGetMino(i, j);
 			}
 		}
+
+
+		if (m_FirstMino)
+		{
+			mino->Update();
+
+			mino->SetMino();
+		
+			for (int i = 0; i < Column; i++)
+			{
+				for (int j = 0; j < Side; j++)
+				{
+					m_ActiveMinoNum[i][j] = mino->GetMino1(i,j);
+				}
+			}
+		}
+
+		/*if (!m_FirstMino)
+		{
+			for (int i = 0; i < Column; i++)
+			{
+				for (int j = 0; j < Side; j++)
+				{
+					m_ActiveMinoNum[i][j] = m_NextActiveMinoNum[i][j];
+				}
+			}
+		}*/
 
 		for (int i = 0; i < Column; i++)
 		{
@@ -329,10 +381,12 @@ void Field::update()
 				}
 			}
 		}
+
 	//	m_ActiveFieldNum[0][5] = 1;
 
 		m_MinoNum = 4;
 	//	m_SwitchMinoFlame = 0;
+		m_FirstMino = false;
 	}
 }
 
@@ -352,6 +406,24 @@ void Field::draw()
 				DrawBox(j * m_MinoSize + 100, i * m_MinoSize + 100, 
 					(j + 1) * m_MinoSize + 100, (i + 1) * m_MinoSize + 100, GetColor(255, 255, 255),true);
 			}
+		}
+	}
+
+	for (int i = 0; i < Column; i++)
+	{
+		for (int j = 0; j < Side; j++)
+		{
+			DrawBox(j * m_MinoSize + 500, i * m_MinoSize + 100,
+				(j + 1) * m_MinoSize + 500, (i + 1) * m_MinoSize + 100, GetColor(255, 255, 255), true);
+
+			if (m_NextActiveMinoNum[i][j] == 1)
+			{
+				DrawBox(j * m_MinoSize + 500, i * m_MinoSize + 100,
+					(j + 1) * m_MinoSize + 500, (i + 1) * m_MinoSize + 100, GetColor(255, 0, 0), true);
+			}
+
+			DrawBox(j * m_MinoSize + 500, i * m_MinoSize + 100,
+				(j + 1) * m_MinoSize + 500, (i + 1) * m_MinoSize + 100, GetColor(0, 255, 0), false);
 		}
 	}
 

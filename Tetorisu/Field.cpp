@@ -419,7 +419,7 @@ void Field::draw()
 			if (m_NextActiveMinoNum[i][j] == 1)
 			{
 				DrawBox(j * m_MinoSize + 500, i * m_MinoSize + 100,
-					(j + 1) * m_MinoSize + 500, (i + 1) * m_MinoSize + 100, GetColor(255, 0, 0), true);
+					(j + 1) * m_MinoSize + 500, (i + 1) * m_MinoSize + 100, GetColor(255, 100, 100), true);
 			}
 
 			DrawBox(j * m_MinoSize + 500, i * m_MinoSize + 100,
@@ -448,7 +448,7 @@ void Field::draw()
 			if (m_ActiveFieldNum[i][j] == 1)
 			{
 				DrawBox(j * m_MinoSize + 100, i * m_MinoSize + 100,
-					(j + 1) * m_MinoSize + 100, (i + 1) * m_MinoSize + 100, GetColor(255, 0, 0), true);
+					(j + 1) * m_MinoSize + 100, (i + 1) * m_MinoSize + 100, GetColor(255, 100, 100), true);
 				DrawBox(j * m_MinoSize + 100, i * m_MinoSize + 100,
 					(j + 1) * m_MinoSize + 100, (i + 1) * m_MinoSize + 100, GetColor(0, 255, 0), false);
 			}

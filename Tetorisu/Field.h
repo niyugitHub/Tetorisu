@@ -1,8 +1,10 @@
 #pragma once
 
+#include "SceneBase.h"
+
 class Mino;
 
-class Field
+class Field : public SceneBase
 {
 private:
 	static constexpr int Column = 4;
@@ -12,13 +14,13 @@ public:
 
 	virtual ~Field();
 	
-	void init();
+	virtual void init()override;
 
-	void end();
+	virtual void end()override;
 
-	void update();
+	virtual SceneBase* update()override;
 
-	void draw();
+	virtual void draw()override;
 
 	bool IsActive();
 
@@ -94,6 +96,8 @@ private:
 	bool m_rota4;
 
 	bool m_MinusMino;
+
+	bool m_End;
 
 	// update処理メンバ関数ポインタ
 	void(Field:: *m_func)();

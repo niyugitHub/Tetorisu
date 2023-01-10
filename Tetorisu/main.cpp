@@ -1,7 +1,7 @@
 #include "DxLib.h"
 
 #include"Vec2.h"
-#include"Field.h"
+#include"SceneManager.h"
 
 namespace
 {
@@ -37,8 +37,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// ダブルバッファモード
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	Field field;
-	field.init();
+	SceneManager scene;
+	scene.init();
 
 	while (ProcessMessage() == 0)
 	{
@@ -48,8 +48,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		SetMouseDispFlag(1);
 
-		field.update();
-		field.draw();
+		scene.update();
+		scene.draw();
 
 		// 裏画面と表画面を入れ替える
 		ScreenFlip();
@@ -62,7 +62,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		}
 	}
-	field.end();
+	scene.end();
 
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 

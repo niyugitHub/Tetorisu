@@ -2,7 +2,7 @@
 #include <cassert>
 
 #include"SceneTitle.h"
-#include"SceneMain.h"
+#include"Field.h"
 
 
 SceneManager::SceneManager()
@@ -25,7 +25,7 @@ void SceneManager::init(SceneKind kind)
 		m_pScene->init();
 		break;
 	case SceneManager::kSceneKindMain:
-		m_pScene = new SceneMain;
+		m_pScene = new Field;
 		m_pScene->init();
 		break;
 

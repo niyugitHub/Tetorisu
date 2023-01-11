@@ -32,6 +32,12 @@ public:
 
 	void MoveMino();
 
+	void FallMino();
+
+	bool IsPossibleFall();
+
+	bool IsPossibleMino();
+
 	//bool columnExist();
 private:
 	void updateAppear();	// 登場
@@ -47,6 +53,9 @@ private:
 
 	// 今動いているミノの情報（0,1）
 	int m_ActiveMinoNum[Column][Side];
+
+	// 今動いているミノの情報（0,1）
+	int m_VirtualActiveMinoNum[Column][Side];
 
 	// 次に動くミノの情報（0,1）
 	int m_NextActiveMinoNum[Column][Side];
@@ -73,6 +82,7 @@ private:
 	bool m_IsRightPressBotton;
 	bool m_IsLeftPressBotton;
 	bool m_IsUpPressBotton;
+	bool m_IsZPressBotton;
 
 	// 横一列のミノの数
 	int m_ColumnMinoNum;

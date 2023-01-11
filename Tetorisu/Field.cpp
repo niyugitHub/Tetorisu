@@ -19,6 +19,7 @@ Field::Field() :
 	m_IsRightPressBotton(false),
 	m_IsLeftPressBotton(false),
 	m_IsUpPressBotton(false),
+	m_IsZPressBotton(false),
 	m_ColumnMinoNum(0),
 	m_ExistColumnMino(false),
 	m_BottomMino(false),
@@ -56,6 +57,14 @@ Field::Field() :
 		for (int j = 0; j < Side; j++)
 		{
 			m_ActiveMinoNum[i][j] = 0;
+		}
+	}
+
+	for (int i = 0; i < Column; i++)
+	{
+		for (int j = 0; j < Side; j++)
+		{
+			m_VirtualActiveMinoNum[i][j] = 0;
 		}
 	}
 
@@ -213,7 +222,12 @@ SceneBase* Field::update()
 
 		if (IsActive())
 		{
-			rotationMino();
+			FallMino();
+
+			if (IsPossibleMino())
+			{
+				rotationMino();
+			}
 
 			if (m_fallFlame >= 20 && m_SwitchMinoFlame == 0)
 			{
@@ -245,6 +259,8 @@ SceneBase* Field::update()
 			m_OnesPlaceNum = m_MinoNum % 10;	// ˆê‚ÌˆÊ
 
 			MoveMino();
+
+			/*FallMino();*/
 
 			m_TensPlaceNum = m_MinoNum / 10;	// \‚ÌˆÊ
 			m_OnesPlaceNum = m_MinoNum % 10;	// ˆê‚ÌˆÊ
@@ -1007,10 +1023,10 @@ void Field::MoveMino()
 					m_MinoNum--;
 				}
 
-				if (m_FieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] == 1 && j >= 2)
+				/*if (m_FieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] == 1 && j >= 2)
 				{
 					m_MinoNum--;
-				}
+				}*/
 
 				///*if (m_FieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] == 1)
 				//{
@@ -1044,13 +1060,160 @@ void Field::MoveMino()
 					}
 				}
 
-				if (m_FieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] == 1 && j < 2)
+				/*if (m_FieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] == 1 && j < 2)
 				{
 					m_MinoNum++;
-				}
+				}*/
 
 				m_ActiveFieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] = 0;
 			}
 		}
 	}
+}
+
+void Field::FallMino()
+{
+	if (CheckHitKey(KEY_INPUT_Z) && !m_IsZPressBotton)
+	{
+		m_IsZPressBotton = true;
+
+		while (IsPossibleFall())
+		{
+			for (int i = 0; i < Column; i++)
+			{
+				for (int j = 0; j < Side; j++)
+				{
+					m_ActiveFieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] = 0;
+				}
+			}
+
+			m_TensPlaceNum++;
+			m_MinoNum += 10;
+
+			for (int i = 0; i < Column; i++)
+			{
+				for (int j = 0; j < Side; j++)
+				{
+					m_ActiveFieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] = m_ActiveMinoNum[i][j];
+				}
+			}
+		}
+
+		if (!IsPossibleFall())
+		{
+			m_SwitchMinoFlame = 60;
+		}
+	}
+
+	else if (!CheckHitKey(KEY_INPUT_Z))
+	{
+		m_IsZPressBotton = false;
+	}
+}
+
+bool Field::IsPossibleFall()
+{
+	for (int i = 0; i < kSideNum; i++)
+	{
+		if (m_ActiveFieldNum[kLengthNum - 1][i] == 1)
+		{
+			return false;
+		}
+	}
+
+	for (int i = 0; i < Side; i++)
+	{
+		if (m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum + i] == 1
+			&& m_FieldNum[m_TensPlaceNum + 1][m_OnesPlaceNum + i] == 1)
+		{
+			return false;
+		}
+
+		if (m_ActiveFieldNum[m_TensPlaceNum + 1][m_OnesPlaceNum + i] == 1
+			&& m_FieldNum[m_TensPlaceNum + 2][m_OnesPlaceNum + i] == 1)
+		{
+			return false;
+		}
+
+		if (m_ActiveFieldNum[m_TensPlaceNum + 2][m_OnesPlaceNum + i] == 1
+			&& m_FieldNum[m_TensPlaceNum + 3][m_OnesPlaceNum + i] == 1)
+		{
+			return false;
+		}
+
+		if (m_ActiveFieldNum[m_TensPlaceNum + 3][m_OnesPlaceNum + i] == 1
+			&& m_FieldNum[m_TensPlaceNum + 4][m_OnesPlaceNum + i] == 1)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+bool Field::IsPossibleMino()
+{
+	for (int i = 0; i < Column; i++)
+	{
+		for (int j = 0; j < Side; j++)
+		{
+			m_VirtualActiveMinoNum[i][j] = 0;
+		}
+	}
+
+	if (m_rota1)
+	{
+		for (int i = 0; i < Column; i++)
+		{
+			for (int j = 0; j < Side; j++)
+			{
+				m_VirtualActiveMinoNum[i][j] = mino->GetMino2(i, j);
+			}
+		}
+	}
+
+	else if (m_rota2)
+	{
+		for (int i = 0; i < Column; i++)
+		{
+			for (int j = 0; j < Side; j++)
+			{
+				m_VirtualActiveMinoNum[i][j] = mino->GetMino3(i, j);
+			}
+		}
+	}
+
+	else if (m_rota3)
+	{
+		for (int i = 0; i < Column; i++)
+		{
+			for (int j = 0; j < Side; j++)
+			{
+				m_VirtualActiveMinoNum[i][j] = mino->GetMino4(i, j);
+			}
+		}
+	}
+
+	else if (m_rota4)
+	{
+		for (int i = 0; i < Column; i++)
+		{
+			for (int j = 0; j < Side; j++)
+			{
+				m_VirtualActiveMinoNum[i][j] = mino->GetMino1(i, j);
+			}
+		}
+	}
+
+	for (int i = 0; i < Column; i++)
+	{
+		for (int j = 0; j < Side; j++)
+		{
+			if (m_VirtualActiveMinoNum[i][j] == 1 &&
+				m_FieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] == 1)
+			{
+				return false;
+			}
+		}
+	}
+	return true;
 }

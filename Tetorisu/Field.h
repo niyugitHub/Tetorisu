@@ -34,7 +34,15 @@ public:
 
 	void FallMino();
 
+	// 落下位置の予測
+	void PredictionMino();
+
+	// ホールド
+	void MinoHold();
+
 	bool IsPossibleFall();
+
+	bool IsPredictionFall();
 
 	bool IsPossibleMino();
 
@@ -57,6 +65,9 @@ private:
 	// 今動いているミノの情報（0,1）
 	int m_VirtualActiveMinoNum[Column][Side];
 
+	// ホールドしたミノの情報（0,1）
+	int m_HoldMinoNum[Column][Side];
+
 	// 次に動くミノの情報（0,1）
 	int m_NextActiveMinoNum[Column][Side];
 
@@ -65,6 +76,9 @@ private:
 
 	// ミノが消えた時の置き換え
 	int m_VirtualFieldNum[20][10];
+
+	// 落下位置の予測
+	int m_PredictionMinoFieldNum[23][10];
 
 	// テトリミノ番号
 	int m_MinoNum;
@@ -78,6 +92,16 @@ private:
 	
 	// テトリミノが切り替わる時間
 	int m_SwitchMinoFlame;
+
+	// 落下位置の値
+	int m_PredictionTenNum;
+	int m_PredictionOneNum;
+
+	// 何列消えたか
+	int m_DeleteNum;
+	// スコア
+	int m_Score;
+	int m_TotalScore;
 
 	bool m_IsRightPressBotton;
 	bool m_IsLeftPressBotton;
@@ -95,6 +119,12 @@ private:
 
 	// 最初に出されるミノのとき
 	bool m_FirstMino;
+
+	// 最初にホールドしたとき
+	bool m_FirstHold;
+
+	// ホールドしたとき
+	bool m_Hold;
 
 	// 何列目のミノがそろったか
 	int m_ExistMinoNum;

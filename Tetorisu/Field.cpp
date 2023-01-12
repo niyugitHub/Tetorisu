@@ -16,6 +16,11 @@ Field::Field() :
 	m_TensPlaceNum(0),	// 十の位
 	m_OnesPlaceNum(0),	// 一の位
 	m_SwitchMinoFlame(60),
+	m_PredictionTenNum(0),
+	m_PredictionOneNum(0),
+	m_DeleteNum(0),
+	m_Score(0),
+	m_TotalScore(0),
 	m_IsRightPressBotton(false),
 	m_IsLeftPressBotton(false),
 	m_IsUpPressBotton(false),
@@ -24,6 +29,8 @@ Field::Field() :
 	m_ExistColumnMino(false),
 	m_BottomMino(false),
 	m_FirstMino(true),
+	m_FirstHold(false),
+	m_Hold(false),
 	m_ExistMinoNum(0),
 	m_rota1(false),
 	m_rota2(false),
@@ -72,6 +79,14 @@ Field::Field() :
 	{
 		for (int j = 0; j < Side; j++)
 		{
+			m_HoldMinoNum[i][j] = 0;
+		}
+	}
+
+	for (int i = 0; i < Column; i++)
+	{
+		for (int j = 0; j < Side; j++)
+		{
 			m_NextActiveMinoNum[i][j] = 0;
 		}
 	}
@@ -89,6 +104,14 @@ Field::Field() :
 		for (int j = 0; j < kSideNum; j++)
 		{
 			m_VirtualFieldNum[i][j] = 0;
+		}
+	}
+
+	for (int i = 0; i < kLengthNum; i++)
+	{
+		for (int j = 0; j < kSideNum; j++)
+		{
+			m_PredictionMinoFieldNum[i][j] = 0;
 		}
 	}
 
@@ -222,7 +245,11 @@ SceneBase* Field::update()
 
 		if (IsActive())
 		{
+			// 落下位置の予測の初期化
+			m_PredictionTenNum = 0;
 			FallMino();
+
+			PredictionMino();
 
 			if (IsPossibleMino())
 			{
@@ -316,6 +343,36 @@ SceneBase* Field::update()
 			//m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum] = 1;
 
 			m_fallFlame++;
+
+			MinoHold();
+		}
+
+		if (m_Hold)
+		{
+			m_Hold = false;
+
+			mino->SetMinoNow();
+
+			for (int i = 0; i < kLengthNum; i++)
+			{
+				for (int j = 0; j < kSideNum; j++)
+				{
+					m_ActiveFieldNum[i][j] = 0;
+				}
+			}
+
+			for (int i = 0; i < Column; i++)
+			{
+				for (int j = 0; j < Side; j++)
+				{
+					if (m_ActiveMinoNum[i][j] == 1)
+					{
+						m_ActiveFieldNum[i][j + 4] = 1;
+					}
+				}
+			}
+
+			m_MinoNum = 4;
 		}
 
 		if (!IsActive())
@@ -374,6 +431,7 @@ SceneBase* Field::update()
 								{
 									m_FieldNum[i][k] = 0;
 								}
+								m_DeleteNum++;
 								m_ExistColumnMino = true;
 								m_ExistMinoNum = i;
 							}
@@ -410,6 +468,27 @@ SceneBase* Field::update()
 						}
 						m_ExistColumnMino = false;
 					}
+				}
+
+				if (m_DeleteNum > 0)
+				{
+					if (m_DeleteNum == 1)
+					{
+						m_Score += 100;
+					}
+					if (m_DeleteNum == 2)
+					{
+						m_Score += 300;
+					}
+					if (m_DeleteNum == 3)
+					{
+						m_Score += 500;
+					}
+					if (m_DeleteNum == 4)
+					{
+						m_Score += 800;
+					}
+					m_DeleteNum = 0;
 				}
 		
 
@@ -515,6 +594,18 @@ void Field::draw()
 		}
 	}
 
+	for (int i = 0; i < kLengthNum; i++)
+	{
+		for (int j = 0; j < kSideNum; j++)
+		{
+			if (m_PredictionMinoFieldNum[i][j] == 1)
+			{
+				DrawBox(j * m_MinoSize + 100, i * m_MinoSize + 100,
+					(j + 1) * m_MinoSize + 100, (i + 1) * m_MinoSize + 100, GetColor(255, 200, 200), true);
+			}
+		}
+	}
+
 	for (int i = 0; i < Column; i++)
 	{
 		for (int j = 0; j < Side; j++)
@@ -530,6 +621,24 @@ void Field::draw()
 
 			DrawBox(j * m_MinoSize + 500, i * m_MinoSize + 100,
 				(j + 1) * m_MinoSize + 500, (i + 1) * m_MinoSize + 100, GetColor(0, 255, 0), false);
+		}
+	}
+
+	for (int i = 0; i < Column; i++)
+	{
+		for (int j = 0; j < Side; j++)
+		{
+			DrawBox(j * m_MinoSize + 500, i * m_MinoSize + 300,
+				(j + 1) * m_MinoSize + 500, (i + 1) * m_MinoSize + 300, GetColor(255, 255, 255), true);
+
+			if (m_HoldMinoNum[i][j] == 1)
+			{
+				DrawBox(j * m_MinoSize + 500, i * m_MinoSize + 300,
+					(j + 1) * m_MinoSize + 500, (i + 1) * m_MinoSize + 300, GetColor(255, 100, 100), true);
+			}
+
+			DrawBox(j * m_MinoSize + 500, i * m_MinoSize + 300,
+				(j + 1) * m_MinoSize + 500, (i + 1) * m_MinoSize + 300, GetColor(0, 255, 0), false);
 		}
 	}
 
@@ -560,9 +669,13 @@ void Field::draw()
 			}
 		}
 	}
+	SetFontSize(20);
+	DrawFormatString(350, 300, GetColor(255,255,255),"Score::%d", m_Score);
 
 	if (m_End)
 	{
+		SetFontSize(50);
+
 		DrawString(500, 300, "ゲームオーバー",
 			GetColor(0, 255, 0), 50);
 
@@ -1111,6 +1224,95 @@ void Field::FallMino()
 	}
 }
 
+void Field::PredictionMino()
+{
+	while (IsPredictionFall())
+	{
+		for (int i = 0; i < kLengthNum; i++)
+		{
+			for (int j = 0; j < kSideNum; j++)
+			{
+				m_PredictionMinoFieldNum[i][j] = 0;
+			}
+		}
+
+		m_PredictionTenNum++;
+
+		for (int i = 0; i < Column; i++)
+		{
+			for (int j = 0; j < Side; j++)
+			{
+				m_PredictionMinoFieldNum[m_PredictionTenNum + i][m_OnesPlaceNum + j] = m_ActiveMinoNum[i][j];
+			}
+		}
+	}
+
+	if (!IsPredictionFall())
+	{
+		for (int i = 0; i < kLengthNum; i++)
+		{
+			for (int j = 0; j < kSideNum; j++)
+			{
+				m_PredictionMinoFieldNum[i][j] = 0;
+			}
+		}
+
+		for (int i = 0; i < Column; i++)
+		{
+			for (int j = 0; j < Side; j++)
+			{
+				m_PredictionMinoFieldNum[m_PredictionTenNum + i][m_OnesPlaceNum + j] = m_ActiveMinoNum[i][j];
+			}
+		}
+	}
+}
+
+void Field::MinoHold()
+{
+	if (CheckHitKey(KEY_INPUT_X))
+	{
+		m_Hold = true;
+		for (int i = 0; i < Column; i++)
+		{
+			for (int j = 0; j < Side; j++)
+			{
+				m_ActiveMinoNum[i][j] = m_HoldMinoNum[i][j];
+			}
+		}
+		for (int i = 0; i < Column; i++)
+		{
+			for (int j = 0; j < Side; j++)
+			{
+				m_HoldMinoNum[i][j] = mino->GetMino1(i, j);
+			}
+		}
+
+		for (int i = 0; i < Column; i++)
+		{
+			for (int j = 0; j < Side; j++)
+			{
+				if (m_ActiveMinoNum[i][j] == 0)
+				{
+					m_FirstHold = true;
+					break;
+				}
+			}
+		}
+
+		if (m_FirstHold)
+		{
+			m_FirstHold = false;
+			for (int i = 0; i < Column; i++)
+			{
+				for (int j = 0; j < Side; j++)
+				{
+					m_ActiveMinoNum[i][j] = mino->NextGetMino(i, j);
+				}
+			}
+		}
+	}
+}
+
 bool Field::IsPossibleFall()
 {
 	for (int i = 0; i < kSideNum; i++)
@@ -1143,6 +1345,45 @@ bool Field::IsPossibleFall()
 
 		if (m_ActiveFieldNum[m_TensPlaceNum + 3][m_OnesPlaceNum + i] == 1
 			&& m_FieldNum[m_TensPlaceNum + 4][m_OnesPlaceNum + i] == 1)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+bool Field::IsPredictionFall()
+{
+	for (int i = 0; i < kSideNum; i++)
+	{
+		if (m_PredictionMinoFieldNum[kLengthNum - 1][i] == 1)
+		{
+			return false;
+		}
+	}
+
+	for (int i = 0; i < Side; i++)
+	{
+		if (m_PredictionMinoFieldNum[m_PredictionTenNum][m_OnesPlaceNum + i] == 1
+			&& m_FieldNum[m_PredictionTenNum + 1][m_OnesPlaceNum + i] == 1)
+		{
+			return false;
+		}
+
+		if (m_PredictionMinoFieldNum[m_PredictionTenNum + 1][m_OnesPlaceNum + i] == 1
+			&& m_FieldNum[m_PredictionTenNum + 2][m_OnesPlaceNum + i] == 1)
+		{
+			return false;
+		}
+
+		if (m_PredictionMinoFieldNum[m_PredictionTenNum + 2][m_OnesPlaceNum + i] == 1
+			&& m_FieldNum[m_PredictionTenNum + 3][m_OnesPlaceNum + i] == 1)
+		{
+			return false;
+		}
+
+		if (m_PredictionMinoFieldNum[m_PredictionTenNum + 3][m_OnesPlaceNum + i] == 1
+			&& m_FieldNum[m_PredictionTenNum + 4][m_OnesPlaceNum + i] == 1)
 		{
 			return false;
 		}

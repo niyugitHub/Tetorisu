@@ -604,7 +604,7 @@ void Field::draw()
 		}
 	}
 
-	/*for (int i = 0; i < kLengthNum; i++)
+	for (int i = 0; i < kLengthNum; i++)
 	{
 		for (int j = 0; j < kSideNum; j++)
 		{
@@ -614,7 +614,7 @@ void Field::draw()
 					(j + 1) * m_MinoSize + 100, (i + 1) * m_MinoSize + 100, GetColor(255, 200, 200), true);
 			}
 		}
-	}*/
+	}
 
 	for (int i = 0; i < Column; i++)
 	{
@@ -1236,6 +1236,14 @@ void Field::FallMino()
 
 void Field::PredictionMino()
 {
+	for (int i = 0; i < kLengthNum; i++)
+	{
+		for (int j = 0; j < kSideNum; j++)
+		{
+			m_PredictionMinoFieldNum[i][j] = 0;
+		}
+	}
+
 	while (IsPredictionFall())
 	{
 		for (int i = 0; i < kLengthNum; i++)
@@ -1390,28 +1398,31 @@ bool Field::IsPredictionFall()
 
 	for (int i = 0; i < Side; i++)
 	{
-		if (m_PredictionMinoFieldNum[m_PredictionTenNum][m_OnesPlaceNum + i] == 1
-			&& m_FieldNum[m_PredictionTenNum + 1][m_OnesPlaceNum + i] == 1)
+		if (m_TensPlaceNum <= m_PredictionTenNum)
 		{
-			return false;
-		}
+			if (m_PredictionMinoFieldNum[m_PredictionTenNum][m_OnesPlaceNum + i] == 1
+				&& m_FieldNum[m_PredictionTenNum + 1][m_OnesPlaceNum + i] == 1)
+			{
+				return false;
+			}
 
-		if (m_PredictionMinoFieldNum[m_PredictionTenNum + 1][m_OnesPlaceNum + i] == 1
-			&& m_FieldNum[m_PredictionTenNum + 2][m_OnesPlaceNum + i] == 1)
-		{
-			return false;
-		}
+			if (m_PredictionMinoFieldNum[m_PredictionTenNum + 1][m_OnesPlaceNum + i] == 1
+				&& m_FieldNum[m_PredictionTenNum + 2][m_OnesPlaceNum + i] == 1)
+			{
+				return false;
+			}
 
-		if (m_PredictionMinoFieldNum[m_PredictionTenNum + 2][m_OnesPlaceNum + i] == 1
-			&& m_FieldNum[m_PredictionTenNum + 3][m_OnesPlaceNum + i] == 1)
-		{
-			return false;
-		}
+			if (m_PredictionMinoFieldNum[m_PredictionTenNum + 2][m_OnesPlaceNum + i] == 1
+				&& m_FieldNum[m_PredictionTenNum + 3][m_OnesPlaceNum + i] == 1)
+			{
+				return false;
+			}
 
-		if (m_PredictionMinoFieldNum[m_PredictionTenNum + 3][m_OnesPlaceNum + i] == 1
-			&& m_FieldNum[m_PredictionTenNum + 4][m_OnesPlaceNum + i] == 1)
-		{
-			return false;
+			if (m_PredictionMinoFieldNum[m_PredictionTenNum + 3][m_OnesPlaceNum + i] == 1
+				&& m_FieldNum[m_PredictionTenNum + 4][m_OnesPlaceNum + i] == 1)
+			{
+				return false;
+			}
 		}
 	}
 	return true;

@@ -5,7 +5,9 @@ Mino::Mino():
 	m_RandMino(0),
 	m_NextRandMino(0),
 	m_MinoTypes(0),
-	m_NextMinoTypes(0)
+	m_NextMinoTypes(0),
+	m_HoldMino(0),
+	m_tmp(0)
 {
 	for (int i = 0; i < Column; i++)
 	{
@@ -24,11 +26,13 @@ Mino::~Mino()
 void Mino::Update()
 {
 	m_RandMino = GetRand(6);
+	m_tmp = m_RandMino;
 }
 
 void Mino::NextUpdate()
 {
 	m_NextRandMino = GetRand(6);
+	m_tmp = m_RandMino;
 }
 
 void Mino::SetMinoNow()
@@ -94,6 +98,16 @@ void Mino::NextSetMino()
 	default:
 		break;
 	}
+}
+
+void Mino::SetHoldMino()
+{
+	m_HoldMino = m_tmp;
+}
+
+void Mino::SetHoldMino1()
+{
+	m_RandMino = m_HoldMino;
 }
 
 int Mino::GetMino1(int i , int j)

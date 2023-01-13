@@ -25,11 +25,12 @@ Field::Field() :
 	m_IsLeftPressBotton(false),
 	m_IsUpPressBotton(false),
 	m_IsZPressBotton(false),
+	m_IsXPressBotton(false),
 	m_ColumnMinoNum(0),
 	m_ExistColumnMino(false),
 	m_BottomMino(false),
 	m_FirstMino(true),
-	m_FirstHold(false),
+	m_FirstHold(true),
 	m_Hold(false),
 	m_ExistMinoNum(0),
 	m_rota1(false),
@@ -351,7 +352,15 @@ SceneBase* Field::update()
 		{
 			m_Hold = false;
 
-			mino->SetMinoNow();
+	//		mino->SetMinoNow();
+			if (m_FirstHold)
+			{
+				m_FirstHold = false;
+				mino->SetMinoNow();
+
+			}
+
+			mino->SetMino();
 
 			for (int i = 0; i < kLengthNum; i++)
 			{
@@ -377,6 +386,7 @@ SceneBase* Field::update()
 
 		if (!IsActive())
 		{
+			m_IsXPressBotton = false;
 			m_SwitchMinoFlame = 0;
 
 			// m_ActiveFieldNum‚ª1‚Åm_FieldNum‚ª0‚Ì‚Æ‚«m_FieldNum‚É1‚ð‘ã“ü‚·‚é
@@ -594,7 +604,7 @@ void Field::draw()
 		}
 	}
 
-	for (int i = 0; i < kLengthNum; i++)
+	/*for (int i = 0; i < kLengthNum; i++)
 	{
 		for (int j = 0; j < kSideNum; j++)
 		{
@@ -604,7 +614,7 @@ void Field::draw()
 					(j + 1) * m_MinoSize + 100, (i + 1) * m_MinoSize + 100, GetColor(255, 200, 200), true);
 			}
 		}
-	}
+	}*/
 
 	for (int i = 0; i < Column; i++)
 	{
@@ -1269,9 +1279,26 @@ void Field::PredictionMino()
 
 void Field::MinoHold()
 {
-	if (CheckHitKey(KEY_INPUT_X))
+	if (CheckHitKey(KEY_INPUT_X) && !m_IsXPressBotton)
 	{
+		m_IsXPressBotton = true;
 		m_Hold = true;
+
+		if (!m_FirstHold)
+		{
+			mino->SetHoldMino1();
+		}
+
+		mino->SetHoldMino();
+
+		for (int i = 0; i < Column; i++)
+		{
+			for (int j = 0; j < Side; j++)
+			{
+				m_ActiveMinoNum[i][j] = 0;
+			}
+		}
+
 		for (int i = 0; i < Column; i++)
 		{
 			for (int j = 0; j < Side; j++)
@@ -1291,9 +1318,9 @@ void Field::MinoHold()
 		{
 			for (int j = 0; j < Side; j++)
 			{
-				if (m_ActiveMinoNum[i][j] == 0)
+				if (m_ActiveMinoNum[i][j] == 1)
 				{
-					m_FirstHold = true;
+					m_FirstHold = false;
 					break;
 				}
 			}
@@ -1301,7 +1328,6 @@ void Field::MinoHold()
 
 		if (m_FirstHold)
 		{
-			m_FirstHold = false;
 			for (int i = 0; i < Column; i++)
 			{
 				for (int j = 0; j < Side; j++)

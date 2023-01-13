@@ -107,6 +107,7 @@ private:
 	bool m_IsLeftPressBotton;
 	bool m_IsUpPressBotton;
 	bool m_IsZPressBotton;
+	bool m_IsXPressBotton;
 
 	// ‰¡ˆê—ñ‚Ìƒ~ƒm‚Ì”
 	int m_ColumnMinoNum;

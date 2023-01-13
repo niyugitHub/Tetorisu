@@ -33,6 +33,10 @@ public:
 
 	void NextSetMino();
 
+	void SetHoldMino();
+
+	void SetHoldMino1();
+
 
 
 	int GetMino1(int i, int j);
@@ -49,6 +53,8 @@ public:
 private:
 	int m_RandMino;
 	int m_NextRandMino;
+	int m_HoldMino;
+	int m_tmp;
 
 	int m_MinoTypes;
 	int m_NextMinoTypes;

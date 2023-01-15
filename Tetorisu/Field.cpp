@@ -304,45 +304,6 @@ SceneBase* Field::update()
 				}
 			}
 
-			//for (int i = 0; i < Column; i++)
-			//{
-			//	for (int j = 0; j < Side; j++)
-			//	{
-			//		if (m_ActiveMinoNum[i][j] == 1)
-			//		{
-			//			m_ActiveFieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] = 1;
-
-			//			if (m_ActiveFieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] == 1 && m_OnesPlaceNum + j >= 10)
-			//			{
-			//				m_MinoNum--;
-			//			}
-
-			//			if (m_ActiveFieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] == 1 && m_FieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] == 1)
-			//			{
-			//				m_MinoNum--;
-			//			}
-
-			//			m_ActiveFieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] = 0;
-			//		}
-			//	}
-			//}
-
-			//m_TensPlaceNum = m_MinoNum / 10;	// è\ÇÃà 
-			//m_OnesPlaceNum = m_MinoNum % 10;	// àÍÇÃà 
-
-			//for (int i = 0; i < Column; i++)
-			//{
-			//	for (int j = 0; j < Side; j++)
-			//	{
-			//		if (m_ActiveMinoNum[i][j] == 1)
-			//		{
-			//			m_ActiveFieldNum[m_TensPlaceNum + i][m_OnesPlaceNum + j] = 1;
-			//		}
-			//	}
-			//}
-
-			//m_ActiveFieldNum[m_TensPlaceNum][m_OnesPlaceNum] = 1;
-
 			m_fallFlame++;
 
 			MinoHold();

@@ -309,41 +309,41 @@ SceneBase* Field::update()
 			MinoHold();
 		}
 
-		if (m_Hold)
-		{
-			m_Hold = false;
+	//	if (m_Hold)
+	//	{
+	//		m_Hold = false;
 
-	//		mino->SetMinoNow();
-			if (m_FirstHold)
-			{
-				m_FirstHold = false;
-				mino->SetMinoNow();
+	////		mino->SetMinoNow();
+	//		if (m_FirstHold)
+	//		{
+	//			m_FirstHold = false;
+	//			mino->SetMinoNow();
 
-			}
+	//		}
 
-			mino->SetMino();
+	//		mino->SetMino();
 
-			for (int i = 0; i < kLengthNum; i++)
-			{
-				for (int j = 0; j < kSideNum; j++)
-				{
-					m_ActiveFieldNum[i][j] = 0;
-				}
-			}
+	//		for (int i = 0; i < kLengthNum; i++)
+	//		{
+	//			for (int j = 0; j < kSideNum; j++)
+	//			{
+	//				m_ActiveFieldNum[i][j] = 0;
+	//			}
+	//		}
 
-			for (int i = 0; i < Column; i++)
-			{
-				for (int j = 0; j < Side; j++)
-				{
-					if (m_ActiveMinoNum[i][j] == 1)
-					{
-						m_ActiveFieldNum[i][j + 4] = 1;
-					}
-				}
-			}
+	//		for (int i = 0; i < Column; i++)
+	//		{
+	//			for (int j = 0; j < Side; j++)
+	//			{
+	//				if (m_ActiveMinoNum[i][j] == 1)
+	//				{
+	//					m_ActiveFieldNum[i][j + 4] = 1;
+	//				}
+	//			}
+	//		}
 
-			m_MinoNum = 4;
-		}
+	//		m_MinoNum = 4;
+	//	}
 
 		if (!IsActive())
 		{
@@ -1305,6 +1305,44 @@ void Field::MinoHold()
 				}
 			}
 		}
+
+		//		mino->SetMinoNow();
+
+		m_rota1 = true;
+		m_rota2 = false;
+		m_rota3 = false;
+		m_rota4 = false;
+
+		if (m_FirstHold)
+		{
+			m_FirstHold = false;
+			mino->SetMinoNow();
+
+		}
+
+		mino->SetMino();
+
+		for (int i = 0; i < kLengthNum; i++)
+		{
+			for (int j = 0; j < kSideNum; j++)
+			{
+				m_ActiveFieldNum[i][j] = 0;
+			}
+		}
+
+		for (int i = 0; i < Column; i++)
+		{
+			for (int j = 0; j < Side; j++)
+			{
+				if (m_ActiveMinoNum[i][j] == 1)
+				{
+					m_ActiveFieldNum[i][j + 4] = 1;
+				}
+			}
+		}
+
+		m_MinoNum = 4;
+		
 	}
 }
 
